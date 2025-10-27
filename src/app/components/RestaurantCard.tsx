@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import type { Restaurant } from "../../types";
 export default function RestaurantPage(restaurant: Restaurant) {
   return (
-    <article key={restaurant.id} className="max-w-[50%] h-full m-auto">
+    <div className="flex flex-col items-center gap-4">
+    <article key={restaurant.id} className="max-w-[50%] h-full">
       <div className="relative flex justify-center items-center">
         <img
           alt={restaurant.name}
@@ -25,5 +27,7 @@ export default function RestaurantPage(restaurant: Restaurant) {
         <p className="opacity-90 font-light">{restaurant.description}</p>
       </div>
     </article>
+    <Link href="/" className="border border-stone-700 rounded-md px-5 py-2">Go Back</Link>
+    </div>
   );
 }
