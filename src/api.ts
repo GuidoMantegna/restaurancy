@@ -1,5 +1,7 @@
 import {Restaurant} from "./types";
 
+const DB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_xofNTCTyDCChnCass5NeqJZxcvQrPYvD3dw8XGI1icsTkGQ_6o9_mMdo5NKz8kKphgcm3irS-Crd/pub?gid=0&single=true&output=csv";
+
 // Listado de restaurantes
 const restaurants: Restaurant[] = [
   {
@@ -121,9 +123,24 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, Math.
 const api = {
   // Obtener todos los restaurantes
   list: async (): Promise<Restaurant[]> => {
-    // Simular un delay en la respuesta de la API
-    await sleep(750);
+    // Obtenemos la información de Google Sheets en formato texto y la dividimos por líneas, nos saltamos la primera línea porque es el encabezado
+    const [, ...data] = await fetch(DB).then(res => res.text()).then(text => text.split('\n'))
 
+    // Convertimos cada línea en un objeto Restaurant, asegúrate de que los campos no posean `,`
+    const restaurants: Restaurant[] = data.map((row) => {
+      const [id, name, description, address, score, ratings, image] = row.split(',')
+      return {
+        id,
+        name,
+        description,
+        address,
+        score: Number(score),
+        ratings: Number(ratings),
+        image: image.replace("\r", "")
+      }
+    })
+
+    // Lo retornamos
     return restaurants;
   },
   // Obtener un restaurante específico por su ID
