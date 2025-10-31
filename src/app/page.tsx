@@ -38,3 +38,6 @@ export default async function Home() {
     </section>
   );
 }
+
+// export const dynamic = 'force-static' // por defecto: auto
+// export const revalidate = 100 // por defecto: false
