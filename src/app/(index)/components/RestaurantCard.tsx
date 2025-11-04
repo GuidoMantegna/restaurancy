@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { Restaurant } from "../../types";
+import type { Restaurant } from "../../../types";
 export default function RestaurantPage(restaurant: Restaurant) {
   return (
     <div className="flex flex-col items-center gap-4">

@@ -1,3 +1,4 @@
+// 👉 Search para Client Components
 "use client";
 
 import Form from "next/form";
@@ -19,10 +20,10 @@ export default function SearchBox() {
 
     // Redireccionamos al index con una query
     router.push(`/?q=${query}`);
-  }
+  } 
 
   return (
-    <Form action="/search" className="mb-8 flex w-full justify-center" onSubmit={handleSubmit}>
+    <Form action="/search" className="mb-8 flex w-full justify-center" onSubmit={handleSubmit}> 
       {/* Inicializamos el input para que contenga el valor actual de la query */}
       <input
         className="px-2 border border-stone-700 rounded-s-md w-75"
