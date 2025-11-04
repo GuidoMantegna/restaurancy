@@ -20,7 +20,7 @@ export default function RootLayout({
         <header className="text-xl leading-[3rem] font-bold">
           <Link href="/">Restaurancy</Link>
         </header>
-        <main className="py-8">{children}</main>
+        <main className="py-8 flex flex-col items-center">{children}</main>
         <footer className="text-center leading-[3rem] opacity-70">
           © {new Date().getFullYear()} Restaurancy
         </footer>
