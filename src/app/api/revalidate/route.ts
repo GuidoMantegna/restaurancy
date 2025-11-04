@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 // Este método nos permite revalidar el contenido de una ruta en particular
 // https://github.com/goncy/nextjs-course?tab=readme-ov-file#revalidatepath
@@ -10,10 +10,10 @@ export async function GET(request: NextRequest) {
   ) {
     return Response.json({ success: false });
   }
-  // Obtenemos la ruta a revalidar
-  const path = request.nextUrl.searchParams.get("path") || "/";
+  // Obtenemos el tag a revalidar
+  const tag = request.nextUrl.searchParams.get("tag") || "restaurants";
 
-  revalidatePath(path);
+  revalidateTag(tag, "restaurants");
 
-  return Response.json({ success: true });
+  return Response.json({success: true});
 }

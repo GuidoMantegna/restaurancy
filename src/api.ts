@@ -124,7 +124,7 @@ const api = {
   // Obtener todos los restaurantes
   list: async (): Promise<Restaurant[]> => {
     // Obtenemos la información de Google Sheets en formato texto y la dividimos por líneas, nos saltamos la primera línea porque es el encabezado
-    const [, ...data] = await fetch(DB, { cache: 'force-cache' }).then(res => res.text()).then(text => text.split('\n'))
+    const [, ...data] = await fetch(DB, { next: { tags: ['restaurants'] } }).then(res => res.text()).then(text => text.split('\n'))
 
     // Convertimos cada línea en un objeto Restaurant, asegúrate de que los campos no posean `,`
     const restaurants: Restaurant[] = data.map((row) => {
@@ -157,6 +157,15 @@ const api = {
     }
 
     return restaurant;
+  },
+  search: async (query: string = ""): Promise<Restaurant[]> => {
+    // Obtenemos los restaurantes
+    const results = await api.list();
+
+    // Los filtramos por nombre
+    return results.filter((restaurant) =>
+      restaurant.name.toLowerCase().includes(query.toLowerCase()),
+    );
   },
 };
 
