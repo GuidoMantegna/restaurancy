@@ -1,4 +1,5 @@
-// 👉 Search para Client Components
+// 👉 Search para Client Components - Deprecado
+// Se usa el form con server actions https://nextjs.org/docs/app/guides/forms
 "use client";
 
 import Form from "next/form";

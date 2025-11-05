@@ -2,14 +2,15 @@ import api from "@/api";
 import { redirect } from "next/navigation";
 import Form from "next/form";
 import RestaurantCard from "./components/RestaurantCard";
+import OnlyFav from "./components/OnlyFav";
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q: string }>;
+  searchParams: Promise<{ q: string, favs: string }>;
 }) {
-  const {q} = await searchParams;
-  const restaurants = await api.search(q);
+  const {q, favs} = await searchParams;
+  const restaurants = favs ? await api.onlyFavs(favs) : await api.search(q);
   async function searchAction(formData: FormData) {
     'use server'
 
@@ -18,7 +19,7 @@ export default async function Home({
 
   return (
     <>
-      <Form action={searchAction} className="mb-8 flex w-full justify-center"> 
+      <Form action={searchAction} className="mb-4 flex w-full justify-center"> 
       {/* Inicializamos el input para que contenga el valor actual de la query */}
       <input
         className="px-2 border border-stone-700 rounded-s-md w-75"
@@ -30,6 +31,7 @@ export default async function Home({
         Search
       </button>
     </Form>
+    <OnlyFav />
       {!restaurants.length && (
         <h2 className="text-center m-10">No restaurants matched your search</h2>
       )}
