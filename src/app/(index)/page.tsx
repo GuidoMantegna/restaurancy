@@ -1,10 +1,7 @@
 import api from "@/api";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import Form from "next/form";
 import RestaurantCard from "./components/RestaurantCard";
-
-const TRANSITIONS_STYLES = `transition-all duration-300 ease-in-out`;
 
 export default async function Home({
   searchParams,
@@ -13,7 +10,6 @@ export default async function Home({
 }) {
   const {q} = await searchParams;
   const restaurants = await api.search(q);
-
   async function searchAction(formData: FormData) {
     'use server'
 
@@ -40,7 +36,8 @@ export default async function Home({
       <section className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
         {restaurants.map((restaurant) => {
           return (
-            <RestaurantCard key={restaurant.id} {...restaurant} />
+
+              <RestaurantCard key={restaurant.id} {...restaurant}/>
           );
         })}
       </section>

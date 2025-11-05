@@ -1,35 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import type { Restaurant } from "../../../types";
-import { usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
+import { DynamicFavoriteButton as FavoriteButton } from "./FavoriteButton";
+import BackButton from "./BackButton";
 
 const TRANSITIONS_STYLES = `transition-all duration-300 ease-in-out`;
-
-function FavoriteButton({restaurant}: {
-  restaurant: {
-    id: string;
-    name: string;
-    image: string;
-    description: string;
-    score: number;
-    ratings: number;
-  }
-}) {
-  const isFavourite = window.localStorage.getItem('favorites')?.includes(restaurant.id)
-
-  return (
-    <button type="button" className={`text-red-500 text-xl ${isFavourite ? 'opacity-100' : 'opacity-20'}`}>♥</button>
-  )
-}
-
-// Creamos un componente dinámico para que no se renderice en el servidor
-const DynamicFavoriteButton = dynamic(async () => FavoriteButton, { ssr: false });
-
 export default function RestaurantCard(restaurant: Restaurant) {
-  const pathname = usePathname();
-
   return (
     <>
       <article
@@ -52,15 +27,11 @@ export default function RestaurantCard(restaurant: Restaurant) {
               ({restaurant.ratings})
             </span>
           </small>
-          <DynamicFavoriteButton restaurant={restaurant} />
+          <FavoriteButton restaurant={restaurant} />
         </h2>
         <p className="opacity-90">{restaurant.description}</p>
       </article>
-      {pathname !== "/" && 
-      <Link href="/" className="border border-stone-700 rounded-md px-5 py-2 m-10 bg-stone-800">
-        Go Back
-      </Link>
-      }
+      <BackButton />
     </>
   );
 }
