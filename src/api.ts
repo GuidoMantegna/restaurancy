@@ -167,6 +167,13 @@ const api = {
       restaurant.name.toLowerCase().includes(query.toLowerCase()),
     );
   },
+  onlyFavs: async (query: string = ""): Promise<Restaurant[]> => {
+    // Obtenemos los restaurantes
+    const results = await api.list();
+
+    // Los filtramos por favoritos
+    return results.filter((restaurant) => query?.split(",").includes(restaurant.id));
+  },
 };
 
 export default api;

@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-function FavoriteButton({restaurant}: {
+function FavoriteButton({
+  restaurant,
+}: {
   restaurant: {
     id: string;
     name: string;
@@ -10,35 +12,48 @@ function FavoriteButton({restaurant}: {
     description: string;
     score: number;
     ratings: number;
-  }
+  };
 }) {
-  const [favorites, setFavorites] = useState<string | null>(window.localStorage.getItem('favorites'))
-  const isFavourite = favorites?.includes(restaurant.id)
+  const [favorites, setFavorites] = useState<string | null>(
+    window.localStorage.getItem("favorites"),
+  );
+  const isFavourite = favorites?.split(",").includes(restaurant.id);
 
   const handleClick = () => {
-    const storedFavorites = window.localStorage.getItem('favorites')
+    const storedFavorites = window.localStorage.getItem("favorites");
 
     if (!storedFavorites) {
-      window.localStorage.setItem('favorites', restaurant.id)
-      setFavorites(restaurant.id)
-      return
+      window.localStorage.setItem("favorites", restaurant.id);
+      setFavorites(restaurant.id);
+      return;
     }
 
-    let newFavorites: string
+    let newFavorites: string;
 
     if (isFavourite) {
-      newFavorites = storedFavorites.split(',').filter((id: string) => id !== restaurant.id).join(',')
+      newFavorites = storedFavorites
+        .split(",")
+        .filter((id: string) => id !== restaurant.id)
+        .join(",");
     } else {
-      newFavorites = storedFavorites.split(',').concat(restaurant.id).join(',')
+      newFavorites = storedFavorites.split(",").concat(restaurant.id).join(",");
     }
-    window.localStorage.setItem('favorites', newFavorites)
-    setFavorites(newFavorites)
-  }
+    window.localStorage.setItem("favorites", newFavorites);
+    setFavorites(newFavorites);
+  };
 
   return (
-    <button type="button" className={`text-red-500 text-xl ${isFavourite ? 'opacity-100' : 'opacity-20'}`} onClick={handleClick}>♥</button>
-  )
+    <button
+      type="button"
+      className={`text-red-500 text-xl ${isFavourite ? "opacity-100" : "opacity-20"}`}
+      onClick={handleClick}
+    >
+      ♥
+    </button>
+  );
 }
 
 // Creamos un componente dinámico para que no se renderice en el servidor
-export const DynamicFavoriteButton = dynamic(async () => FavoriteButton, { ssr: false });
+export const DynamicFavoriteButton = dynamic(async () => FavoriteButton, {
+  ssr: false,
+});
